@@ -24,6 +24,8 @@ window.SITE = {
     // Mail, na który przychodzą rezerwacje ze strony (przez FormSubmit). Pusto = tylko WhatsApp.
     // Za pierwszym razem FormSubmit wyśle na ten adres mail z przyciskiem „Activate” — trzeba go kliknąć.
     bookingEmail: "contact.bayram.pl@gmail.com",
+    // Web3Forms (szybkie maile z formularza). Klucz z web3forms.com — mail docelowy jest przypisany do klucza.
+    web3formsKey: "26048607-a3a1-4ec8-b790-5128b4576137",
     district: "Śródmieście",
     phone: "+48 790 627 246",
     whatsapp: "48790627246",
