@@ -325,7 +325,7 @@ footer .chip:hover { background: #fff; color: var(--ink); }
   .sec-head p { font-size: .95rem; }
   .hero .wrap { padding-block: 26px 34px; }
   .hero-logo { width: min(78%, 300px); }
-  .hero-facts span:last-child { display: none; }      /* adres jest w Kontakcie */
+  .hero-facts > span:last-child { display: none; }      /* adres jest w Kontakcie */
   .intro { margin-bottom: 20px; }
   .btns .btn { flex: 1 1 100%; }
   .ticker-track { font-size: 1.2rem; padding-block: 8px; }
@@ -468,3 +468,19 @@ section { scroll-margin-top: 140px; }
 .song-cat b { display: block; font: 800 .9rem var(--f-head); letter-spacing: .12em; text-transform: uppercase; }
 .song-cat span { color: var(--muted); font-size: .95rem; }
 @media (max-width: 760px) { .song-cat .btn, .k-songs, .ev-songs { width: 100%; } }
+
+/* ---------- Czytelność: ciemniejszy i większy tekst, mocniejsze tło pod tekstem ---------- */
+:root { --muted: #2b2523; }
+body { font-size: 17px; }
+.intro { color: var(--ink); font-size: 1.14rem; font-weight: 500; line-height: 1.55; }
+.sec-head p, .deal p, .night p, .event p, .review blockquote, .res-aside, .note span, .ev-host span, .song-cat span, .lu-w span, .song-list span { color: #222; }
+.hero-facts { color: var(--ink); font-size: .98rem; }
+.eyebrow { color: var(--wine-dark); }
+@media (max-width: 900px) {
+  .bg-woman img { opacity: .3; }
+  main { text-shadow: 0 0 2px #fff, 0 0 6px #fff, 0 0 12px #fff, 0 0 18px #fff; }
+  .btn, .tab, .ntab, .onair, .ticker, .chip, .event, .ev-dates li, .lineup { text-shadow: none; }
+  .lyric { font-size: 1.18rem; }
+}
+@media (min-width: 901px) { .bg-woman img { opacity: .85; } }
+@media (max-width: 900px) { .lyric { font-size: 1.04rem; letter-spacing: .08em; } }

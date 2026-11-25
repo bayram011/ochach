@@ -121,3 +121,11 @@ mark { background: var(--pop-yellow); color: inherit; padding: 0 1px; }
 .it.has-d.open .ds { display: block; }
 .it.has-d:hover .nm { color: var(--wine); }
 .cat-tip { margin: -2px 0 6px; font: 700 .66rem var(--f-head); letter-spacing: .1em; text-transform: uppercase; color: var(--wine); }
+
+/* Czytelność */
+:root { --muted: #3a3331; }
+.bg img { opacity: .13; }
+@media (min-width: 700px) { .bg img { opacity: .18; } }
+.nm { font-weight: 800; color: var(--ink); }
+.pr { font-size: 1.05rem; }
+.cat { background: rgba(255,255,255,.9); }

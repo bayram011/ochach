@@ -21,6 +21,9 @@ window.SITE = {
       en: "Karaoke, shots, beer and cocktails in a cellar on Chmielna. The mic is waiting, so is the crew."
     },
     address: "ul. Chmielna 5, 00-021 Warszawa",
+    // Mail, na który przychodzą rezerwacje ze strony (przez FormSubmit). Pusto = tylko WhatsApp.
+    // Za pierwszym razem FormSubmit wyśle na ten adres mail z przyciskiem „Activate” — trzeba go kliknąć.
+    bookingEmail: "kontakt.ochach@gmail.com",
     district: "Śródmieście",
     phone: "+48 790 627 246",
     whatsapp: "48790627246",
@@ -57,8 +60,8 @@ window.SITE = {
       tag: "6+",
       title: { pl: "Ekipa na karaoke", en: "Karaoke crew" },
       text: {
-        pl: "Przychodzicie w 6 lub więcej osób? Zarezerwowany stolik i runda kamikadze (4× shot) na start za 24 zł.",
-        en: "Coming as 6 or more? A reserved table and a kamikaze round (4× shot) for 24 zł to start."
+        pl: "Przychodzicie w 6 lub więcej osób? Zarezerwowany stolik i kamikadze: 6 shotów za 24 zł.",
+        en: "Coming as 6 or more? A reserved table and kamikaze: 6 shots for 24 zł."
       },
       when: { pl: "Z rezerwacją", en: "With a booking" }
     },

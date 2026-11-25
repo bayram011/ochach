@@ -17,7 +17,7 @@
     "st.3": "Grab the mic", "st.3t": "Lyrics on the screen, the whole cellar sings along.",
     "deals.eyebrow": "For students", "deals.title": "Student deals", "deals.lead": "Student budget, full night out. Show your student card when you order.",
     "menu.eyebrow": "At the bar", "menu.lead": "Prices in złoty, straight from our menu card. With a student card cocktails are 20% off.", "menu.card": "Our menu card",
-    "r.eyebrow": "A table for the crew", "r.title": "Book a table", "r.lead": "Fill in the form and we'll confirm by text or WhatsApp.",
+    "r.eyebrow": "A table for the crew", "r.title": "Book a table", "r.lead": "Fill in the form and your booking comes straight to us. We'll confirm by text or phone.",
     "r.p1": "Book early for weekend karaoke.", "r.p2": "We hold your table for 20 minutes.", "r.p3": "Same-day booking? Calling is fastest.",
     "f.name": "Name", "f.phone": "Phone", "f.date": "Date", "f.time": "Time", "f.people": "Guests", "f.student": "Students?",
     "f.yes": "Yes", "f.no": "No", "f.note": "Notes (optional)", "f.noteph": "E.g. birthday, we want to sing first", "f.submit": "Send booking",
@@ -38,6 +38,9 @@
       name: "Wpisz imię.", phone: "Wpisz numer telefonu (min. 9 cyfr).", date: "Wybierz dzisiejszą lub późniejszą datę.", people: "Od 1 do 30 osób.",
       ok: function (d) { return "Rezerwacja dla " + d.people + " os. na " + d.dateTxt + ", godz. " + d.time + ". Wyślij ją na WhatsApp, a potwierdzimy stolik. Do zobaczenia przy mikrofonie, " + d.name + "!"; },
       wa: function (d) { return "Cześć! Rezerwacja w Och i Ach:\nImię: " + d.name + "\nTelefon: " + d.phone + "\nData: " + d.dateTxt + "\nGodzina: " + d.time + "\nLiczba osób: " + d.people + "\nStudenci: " + (d.student ? "tak" : "nie") + (d.note ? "\nUwagi: " + d.note : ""); },
+      sendingRes: "Wysyłanie…", sentTitle: "Rezerwacja wysłana!",
+      sentRes: function (d) { return "Dzięki, " + d.name + "! Rezerwacja dla " + d.people + " os. na " + d.dateTxt + ", godz. " + d.time + " trafiła do baru. Potwierdzimy ją SMS-em lub telefonicznie."; },
+      failRes: "Nie udało się wysłać formularza. Wyślij rezerwację na WhatsApp albo zadzwoń.",
       copy: "Kopiuj", copied: "Skopiowano", footer: "Karaoke bar · Chmielna, Warszawa", page: "Strona karty", open: "otwórz w pełnym rozmiarze",
       days: ["ndz", "pon", "wt", "śr", "czw", "pt", "sob"], tonight: "dziś",
       empty: "Nikt jeszcze nie dodał zdjęć z tego wieczoru.", beFirst: "Dodaj pierwsze",
@@ -52,6 +55,9 @@
       name: "Enter your name.", phone: "Enter a phone number (at least 9 digits).", date: "Pick today or a later date.", people: "From 1 to 30 guests.",
       ok: function (d) { return "Booking for " + d.people + " on " + d.dateTxt + " at " + d.time + ". Send it on WhatsApp and we'll confirm your table. See you at the mic, " + d.name + "!"; },
       wa: function (d) { return "Hi! Booking at Och i Ach:\nName: " + d.name + "\nPhone: " + d.phone + "\nDate: " + d.dateTxt + "\nTime: " + d.time + "\nGuests: " + d.people + "\nStudents: " + (d.student ? "yes" : "no") + (d.note ? "\nNotes: " + d.note : ""); },
+      sendingRes: "Sending…", sentTitle: "Booking sent!",
+      sentRes: function (d) { return "Thanks, " + d.name + "! Your booking for " + d.people + " on " + d.dateTxt + " at " + d.time + " has reached the bar. We'll confirm by text or phone."; },
+      failRes: "We couldn't send the form. Send your booking on WhatsApp or give us a call.",
       copy: "Copy", copied: "Copied", footer: "Karaoke bar · Chmielna, Warsaw", page: "Menu page", open: "open full size",
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], tonight: "tonight",
       empty: "Nobody has added photos from this night yet.", beFirst: "Add the first ones",
@@ -311,10 +317,24 @@
       student: f.querySelector('input[name="student"]:checked').value === "yes",
       dateTxt: new Date(date + "T12:00:00").toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB", { weekday: "long", day: "numeric", month: "long" })
     };
-    $("#okText").textContent = m.ok(d);
     $("#waLink").href = "https://wa.me/" + S.bar.whatsapp + "?text=" + encodeURIComponent(m.wa(d));
-    $("#resOk").hidden = false;
-    $("#resOk").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    var show = function (txt) { $("#okText").textContent = txt; $("#resOk").hidden = false; $("#resOk").scrollIntoView({ behavior: "smooth", block: "nearest" }); };
+    var mail = S.bar.bookingEmail;
+    if (!mail) { $("#okTitle").textContent = lang === "pl" ? "Prawie gotowe!" : EN["ok.title"]; $("#waLink").hidden = false; show(m.ok(d)); return; }
+    // Rezerwacja leci mailem do baru (FormSubmit), WhatsApp zostaje jako zapas
+    var btn = f.querySelector('button[type="submit"]'); btn.disabled = true; var label = btn.textContent; btn.textContent = m.sendingRes;
+    fetch("https://formsubmit.co/ajax/" + mail, {
+      method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: "Rezerwacja: " + d.name + ", " + d.people + " os., " + d.dateTxt + " " + d.time,
+        _template: "table", _captcha: "false",
+        "Imię": d.name, "Telefon": d.phone, "Data": d.dateTxt, "Godzina": d.time, "Liczba osób": d.people,
+        "Studenci": d.student ? "tak" : "nie", "Uwagi": d.note || "-", "Język strony": lang
+      })
+    }).then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== "true") throw 0; }); })
+      .then(function () { $("#okTitle").textContent = m.sentTitle; show(m.sentRes(d)); $("#waLink").hidden = true; f.reset(); dateIn.value = todayStr; },
+            function () { $("#okTitle").textContent = lang === "pl" ? "Prawie gotowe!" : EN["ok.title"]; show(m.failRes); $("#waLink").hidden = false; })
+      .then(function () { btn.disabled = false; btn.textContent = label; });
   });
 
   // ---------- Wasze wieczory: galeria zdjęć/filmów z wieczorów karaoke ----------
