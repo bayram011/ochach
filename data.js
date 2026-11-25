@@ -23,7 +23,7 @@ window.SITE = {
     address: "ul. Chmielna 5, 00-021 Warszawa",
     // Mail, na który przychodzą rezerwacje ze strony (przez FormSubmit). Pusto = tylko WhatsApp.
     // Za pierwszym razem FormSubmit wyśle na ten adres mail z przyciskiem „Activate” — trzeba go kliknąć.
-    bookingEmail: "kontakt.ochach@gmail.com",
+    bookingEmail: "contact.bayram.pl@gmail.com",
     district: "Śródmieście",
     phone: "+48 790 627 246",
     whatsapp: "48790627246",
