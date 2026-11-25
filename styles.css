@@ -484,3 +484,15 @@ body { font-size: 17px; }
 }
 @media (min-width: 901px) { .bg-woman img { opacity: .85; } }
 @media (max-width: 900px) { .lyric { font-size: 1.04rem; letter-spacing: .08em; } }
+
+/* ---------- Jeszcze czytelniej: czarny i pogrubiony tekst ---------- */
+:root { --muted: #000; }
+body { color: #000; }
+main p, main li, main span, main blockquote, main dd, .intro, .hero-facts, .sec-head p, .deal p, .night p, .night h3, .event p, .review blockquote, .res-aside, .note span, .ev-host span, .song-cat span, .lu-w span, .song-list span, .steps span, .cat-note { color: #000; font-weight: 600; }
+.intro { font-weight: 700; font-size: 1.18rem; }
+.hero-facts b, .deal h3, .night h3 { font-weight: 800; }
+.night .d, .deal .when, .eyebrow { font-weight: 800; }
+@media (max-width: 900px) {
+  .bg-woman img { opacity: .2; }
+  main { text-shadow: 0 0 3px #fff, 0 0 8px #fff, 0 0 14px #fff; }
+}
